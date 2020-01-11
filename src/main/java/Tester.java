@@ -14,7 +14,7 @@ public class Tester extends Thread {
                 System.out.println("Failed :"+password);
             }
         }catch (Exception e){
-
+            System.out.println(e.getMessage());
         }
 
     }
